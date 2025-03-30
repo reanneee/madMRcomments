@@ -213,13 +213,25 @@ class MySpriteGame extends Component with HasGameRef<GameRoutes> {
   }
 
   bool serveFood(int stickType, Vector2 position) {
-    Iterable<Component> components = children.whereType<AnimatedCharacter>();
+    // It returns a boolean value indicating whether the food was successfully served
+    Iterable<Component> components =
+        children
+            .whereType<
+              AnimatedCharacter
+            >(); // Iterable<Component> components, collection of all components in the current game scene,// it will only return all AnimatedCharacter component that are currentlypart of the game.
     for (final component in components) {
-      final character = component as AnimatedCharacter;
+      // starts the loop that iterates over each AnimatedCharater
+      final character =
+          component
+              as AnimatedCharacter; // cast it to the specific type AnimatedCharacter using the as keyword so we can call its methods and access its properties.
       if (character.toRect().contains(position.toOffset())) {
+        // to check if the given position of the food is inside the bound s of the animated charater
         if (character.wantsStick(stickType)) {
-          character.serveFoodItem(stickType);
-          return true;
+          //it checks if yung customer actually wants that specific food if it's yes
+          character.serveFoodItem(
+            stickType,
+          ); // we will serve the food, and na-served na natin yung order sa specific customer
+          return true; // it was successfully served to the character
         }
       }
     }
@@ -229,10 +241,12 @@ class MySpriteGame extends Component with HasGameRef<GameRoutes> {
   void characterFullyServed() {
     consecutiveCharactersServed++; // Increases the consecutiveCharactersServed count by 1 each time a customer is fully served.
 
-    if (consecutiveCharactersServed == requiredConsecutiveServes) { // dito ichecheck lang natin if the vendor has served a required number of consecutive characters
-      addTimeBonus(); //call addTimeBonus method 
+    if (consecutiveCharactersServed == requiredConsecutiveServes) {
+      // dito ichecheck lang natin if the vendor has served a required number of consecutive characters
+      addTimeBonus(); //call addTimeBonus method
       showTimeBonusMessage(); // call showTimeBonusTimeMessage, where a message is shown to indcate the bonus time
-      consecutiveCharactersServed = 0; // after the bonus is applied, we will reset the consecutiveCharctersServed  counter to 0,
+      consecutiveCharactersServed =
+          0; // after the bonus is applied, we will reset the consecutiveCharctersServed  counter to 0,
     }
   }
 
